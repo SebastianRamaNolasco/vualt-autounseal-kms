@@ -8,19 +8,20 @@ resource "aws_kms_key" "vault" {
 }
 
 data "aws_ami" "ubuntu" {
-  most_recent = "true"
-  owners      = ["099720109477"]
+  most_recent = true
+  owners      = ["099720109477"] # Canonical's AWS account ID
 
   filter {
     name   = "name"
-    values = ["ubuntu/images/hvm-ssd/ubuntu-xenial-16.04-amd64-server-*"]
+    values = ["ubuntu/images/hvm-ssd/ubuntu-focal-20.04-amd64-server-*"]
   }
 
   filter {
-    name   = "virtualization-type"
-    values = ["hvm"]
+    name   = "architecture"
+    values = ["x86_64"]
   }
 }
+
 
 resource "aws_instance" "vault" {
   ami           = data.aws_ami.ubuntu.id
